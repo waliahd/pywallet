@@ -1,0 +1,97 @@
+import requests
+from tabulate import tabulate
+from colorama import Fore, Style, init
+import time
+
+# ====== Initialize colorama ======
+init(autoreset=True)
+
+# ====== اپنی API key اور wallet address یہاں ڈالیں ======
+API_KEY = "YOUR_AUTHENTICATED_API_KEY"
+ADDRESS = "bc1ptv5en7apdksv2rllzdnzs6z9k2e2tcqeafhm73490xsczup2h5xsjqqgag"
+
+headers = {
+    "Authorization": f"Bearer {API_KEY}",
+    "Accept": "application/json"
+}
+
+def fetch_wallet_data():
+    url = f"https://mempool.space/api/address/{ADDRESS}"
+    response = requests.get(url, headers=headers)
+    if response.status_code != 200:
+        print(f"{Fore.RED}Error {response.status_code}: {response.text}")
+        return None
+    return response.json()
+
+def display_wallet_data(data):
+    # Wallet balance
+    balance_sats = data.get("chain_stats", {}).get("funded_txo_sum", 0) - data.get("chain_stats", {}).get("spent_txo_sum", 0)
+    balance_btc = balance_sats / 1e8
+    print(f"\n{Fore.CYAN}Wallet Address: {ADDRESS}")
+    print(f"{Fore.GREEN}Balance: {balance_btc} BTC ({balance_sats} sats)")
+
+    # Transactions
+    txs = data.get("txs", [])
+    tx_table = [[tx.get("txid"), tx.get("status", {}).get("block_height", "unconfirmed")] for tx in txs]
+    print(f"\n{Fore.YELLOW}All Transactions ({len(txs)}):")
+    print(tabulate(tx_table, headers=[Fore.MAGENTA + "TXID", Fore.MAGENTA + "Block"], tablefmt="fancy_grid"))
+
+    # Inscriptions / Ordinals
+    inscriptions = data.get("inscriptions", [])
+    ins_table = [[ins.get("id"), ins.get("number"), ins.get("type")] for ins in inscriptions]
+    print(f"\n{Fore.YELLOW}All Inscriptions / Ordinals ({len(inscriptions)}):")
+    print(tabulate(ins_table, headers=[Fore.MAGENTA + "ID", Fore.MAGENTA + "Number", Fore.MAGENTA + "Type"], tablefmt="fancy_grid"))
+
+    # BRC-20 tokens
+    brc20 = data.get("brc20", [])
+    brc_table = [[token.get("ticker"), token.get("balance")] for token in brc20]
+    print(f"\n{Fore.YELLOW}BRC-20 Tokens ({len(brc20)}):")
+    if brc_table:
+        print(tabulate(brc_table, headers=[Fore.MAGENTA + "Ticker", Fore.MAGENTA + "Balance"], tablefmt="fancy_grid"))
+    else:
+        print(Fore.RED + "No BRC-20 tokens found.")
+
+def interactive_search(data):
+    inscriptions = data.get("inscriptions", [])
+    brc20 = data.get("brc20", [])
+    while True:
+        choice = input(f"\n{Fore.CYAN}Search (1) BRC-20 token, (2) Inscription, (3) Refresh, (4) Exit: ")
+
+        if choice == "1":
+            token_name = input("Enter BRC-20 token ticker: ").upper()
+            found = False
+            for token in brc20:
+                if token.get("ticker") == token_name:
+                    print(f"{Fore.GREEN}{token_name} balance: {token.get('balance')}")
+                    found = True
+            if not found:
+                print(f"{Fore.RED}No token {token_name} found.")
+        elif choice == "2":
+            ins_number = input("Enter Inscription number: ")
+            found = False
+            for ins in inscriptions:
+                if str(ins.get("number")) == ins_number:
+                    print(f"{Fore.GREEN}ID: {ins.get('id')} | Number: {ins.get('number')} | Type: {ins.get('type')}")
+                    found = True
+            if not found:
+                print(f"{Fore.RED}No inscription with number {ins_number} found.")
+        elif choice == "3":
+            print(f"{Fore.CYAN}Refreshing wallet data...\n")
+            data = fetch_wallet_data()
+            if data:
+                display_wallet_data(data)
+        elif choice == "4":
+            print(f"{Fore.CYAN}Exiting...")
+            break
+        else:
+            print(f"{Fore.RED}Invalid choice. Try again.")
+
+def main():
+    data = fetch_wallet_data()
+    if not data:
+        return
+    display_wallet_data(data)
+    interactive_search(data)
+
+if __name__ == "__main__":
+    main()
