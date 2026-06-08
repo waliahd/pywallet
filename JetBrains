@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بٹ کوائن والٹ ڈیش بورڈ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@fontsource/amiri@5.0.8/index.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Amiri', serif;
+            background-color: #0f172a;
+            color: #e2e8f0;
+        }
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #f59e0b, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .flow-arrow {
+            position: relative;
+        }
+        .flow-arrow::after {
+            content: '←';
+            position: absolute;
+            left: -1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #3b82f6;
+            font-size: 1.5rem;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        .tab-active {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+        }
+        .copy-toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #10b981;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 50;
+        }
+        .copy-toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-20">
+
+    <!-- Navbar -->
+    <nav class="glass-panel sticky top-0 z-40 border-b border-slate-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-3">
+                    <svg class="w-8 h-8 text-amber-500" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1.41 16.09V20h-2.67v-1.93c-1.71-.36-3.16-1.46-3.27-3.4h1.96c.1 1.05.82 1.87 2.65 1.87 1.96 0 2.4-.98 2.4-1.59 0-.83-.44-1.61-2.67-2.14-2.48-.6-4.18-1.62-4.18-3.67 0-1.72 1.39-2.84 3.11-3.21V4h2.67v1.95c1.86.45 2.79 1.86 2.85 3.39H14.3c-.05-1.11-.64-1.87-2.22-1.87-1.5 0-2.4.68-2.4 1.64 0 .84.65 1.39 2.67 1.91s4.18 1.39 4.18 3.91c-.01 1.83-1.38 2.83-3.12 3.16z"/>
+                    </svg>
+                    <span class="text-xl font-bold gradient-text">کرپٹو والٹ ڈیش بورڈ</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span class="text-sm text-slate-400">نیٹ ورک: <span class="text-green-400">مین نیٹ</span></span>
+                    <div class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div class="glass-panel rounded-2xl overflow-hidden animate-fade-in">
+            <div class="md:flex">
+                <div class="md:w-1/2 p-8 flex flex-col justify-center">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4">بٹ کوائن ٹرانزیکشن اور والٹ مینیجر</h1>
+                    <p class="text-slate-300 text-lg mb-6">
+                        آپ کا والٹ پسِ پردہ ریاضیاتی شجرہ نسب (HD Wallet) استعمال کرتا ہے۔ 
+                        یہاں آپ اپنی ٹرانزیکشنز، ایڈریسز اور نیٹ ورک کی تفصیلات دیکھ سکتے ہیں۔
+                    </p>
+                    <div class="flex gap-4">
+                        <button onclick="scrollToSection('tx-section')" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition">ٹرانزیکشن دیکھیں</button>
+                        <button onclick="scrollToSection('send-section')" class="bg-slate-700 hover:bg-slate-600 text-white px-6 py-2 rounded-lg transition">بٹ کوائن بھیجیں</button>
+                    </div>
+                </div>
+                <div class="md:w-1/2">
+                    <img src="https://image.qwenlm.ai/public_source/99198a16-f112-4177-bdbe-15fe8aad32c2/19b968a70-d20f-4a4e-a82c-7f16408a05a6.png" alt="Crypto Wallet" class="w-full h-64 md:h-full object-cover">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transaction Details Section -->
+    <div id="tx-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+            <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+            ٹرانزیکشن کی تفصیلات
+        </h2>
+        <div class="glass-panel rounded-xl p-6 mb-6">
+            <div class="flex items-center gap-2 mb-2">
+                <span class="text-sm text-slate-400">TXID:</span>
+                <button onclick="copyText('5a982f5fc36c776321f137f1e3347ea4fa3be86500619d8771394720d7337924')" class="text-blue-400 hover:text-blue-300 text-sm font-mono break-all">
+                    5a982f5fc36c776321f137f1e3347ea4fa3be86500619d8771394720d7337924
+                </button>
+                <svg class="w-4 h-4 text-slate-400 cursor-pointer hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" onclick="copyText('5a982f5fc36c776321f137f1e3347ea4fa3be86500619d8771394720d7337924')"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+                <div class="bg-slate-800/50 p-4 rounded-lg">
+                    <div class="text-slate-400 text-sm">سٹیٹس</div>
+                    <div class="text-green-400 font-bold text-lg">13,502 تصدیقیں</div>
+                </div>
+                <div class="bg-slate-800/50 p-4 rounded-lg">
+                    <div class="text-slate-400 text-sm">بلاک ہائٹ</div>
+                    <div class="text-white font-bold text-lg">939,254</div>
+                </div>
+                <div class="bg-slate-800/50 p-4 rounded-lg">
+                    <div class="text-slate-400 text-sm">ٹائم اسٹیمپ</div>
+                    <div class="text-white font-bold text-lg">2026-03-04</div>
+                    <div class="text-slate-400 text-xs">16:29:42 GMT +5</div>
+                </div>
+                <div class="bg-slate-800/50 p-4 rounded-lg">
+                    <div class="text-slate-400 text-sm">ٹرانزیکشن فیس</div>
+                    <div class="text-amber-400 font-bold text-lg">0.00000212 BTC</div>
+                    <div class="text-slate-400 text-xs">1.0 sat/vB</div>
+                </div>
+                <div class="bg-slate-800/50 p-4 rounded-lg">
+                    <div class="text-slate-400 text-sm">سائز</div>
+                    <div class="text-white font-bold">312 B</div>
+                </div>
+                <div class="bg-slate-800/50 p-4 rounded-lg">
+                    <div class="text-slate-400 text-sm">ورچوئل سائز</div>
+                    <div class="text-white font-bold">212 vB</div>
+                </div>
+                <div class="bg-slate-800/50 p-4 rounded-lg">
+                    <div class="text-slate-400 text-sm">ویٹ یونٹس</div>
+                    <div class="text-white font-bold">846 WU</div>
+                </div>
+                <div class="bg-slate-800/50 p-4 rounded-lg">
+                    <div class="text-slate-400 text-sm">ورژن / لاک ٹائم</div>
+                    <div class="text-white font-bold">2 / 0</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Privacy Analysis -->
+        <div class="glass-panel rounded-xl p-6">
+            <h3 class="text-xl font-bold mb-4 text-purple-400">پرائیویسی تجزیہ</h3>
+            <div class="flex flex-wrap gap-3">
+                <span class="bg-purple-900/30 border border-purple-700 text-purple-300 px-4 py-2 rounded-full text-sm flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                    ایڈریس ری یوز
+                </span>
+                <span class="bg-blue-900/30 border border-blue-700 text-blue-300 px-4 py-2 rounded-full text-sm flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+                    مکسڈ اسکرپٹ ٹائپس (v1_p2tr)
+                </span>
+                <span class="bg-green-900/30 border border-green-700 text-green-300 px-4 py-2 rounded-full text-sm flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    RBF آپٹ ان
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Derivation Path Section -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+            <svg class="w-6 h-6 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+            ریاضیاتی شجرہ نسب (Derivation Path)
+        </h2>
+        <div class="glass-panel rounded-xl p-6 overflow-x-auto">
+            <div class="flex items-center justify-between min-w-[800px] gap-2">
+                <div class="flex flex-col items-center bg-slate-800 p-4 rounded-lg border border-slate-700 w-32">
+                    <div class="text-2xl mb-2">🔑</div>
+                    <div class="text-xs text-slate-400 text-center">Mnemonic Phrase</div>
+                    <div class="text-xs text-white font-mono mt-1">12/24 الفاظ</div>
+                </div>
+                <div class="text-blue-500 text-2xl">←</div>
+                <div class="flex flex-col items-center bg-slate-800 p-4 rounded-lg border border-slate-700 w-32">
+                    <div class="text-2xl mb-2">🌱</div>
+                    <div class="text-xs text-slate-400 text-center">Master Seed</div>
+                    <div class="text-xs text-white font-mono mt-1">PBKDF2</div>
+                </div>
+                <div class="text-blue-500 text-2xl">←</div>
+                <div class="flex flex-col items-center bg-slate-800 p-4 rounded-lg border border-slate-700 w-32">
+                    <div class="text-2xl mb-2">🌳</div>
+                    <div class="text-xs text-slate-400 text-center">Master XPRV</div>
+                    <div class="text-xs text-white font-mono mt-1">BIP32</div>
+                </div>
+                <div class="text-blue-500 text-2xl">←</div>
+                <div class="flex flex-col items-center bg-slate-800 p-4 rounded-lg border border-slate-700 w-32">
+                    <div class="text-2xl mb-2">🔐</div>
+                    <div class="text-xs text-slate-400 text-center">Child XPRV</div>
+                    <div class="text-xs text-white font-mono mt-1">Derivation</div>
+                </div>
+                <div class="text-blue-500 text-2xl">←</div>
+                <div class="flex flex-col items-center bg-slate-800 p-4 rounded-lg border border-slate-700 w-32">
+                    <div class="text-2xl mb-2">🔒</div>
+                    <div class="text-xs text-slate-400 text-center">Private Key</div>
+                    <div class="text-xs text-white font-mono mt-1">secp256k1</div>
+                </div>
+                <div class="text-blue-500 text-2xl">←</div>
+                <div class="flex flex-col items-center bg-slate-800 p-4 rounded-lg border border-slate-700 w-32">
+                    <div class="text-2xl mb-2"></div>
+                    <div class="text-xs text-slate-400 text-center">Public Key</div>
+                    <div class="text-xs text-white font-mono mt-1">Point Mult</div>
+                </div>
+                <div class="text-blue-500 text-2xl">←</div>
+                <div class="flex flex-col items-center bg-gradient-to-br from-amber-900/50 to-slate-800 p-4 rounded-lg border border-amber-600 w-32">
+                    <div class="text-2xl mb-2"></div>
+                    <div class="text-xs text-amber-400 text-center">Bitcoin Address</div>
+                    <div class="text-xs text-white font-mono mt-1">Bech32</div>
+                </div>
+            </div>
+            <div class="mt-4 text-center text-slate-400 text-sm">
+                یہ پورا عمل ایک طرفہ (One-Way) ہے۔ پبلک کی سے پرائیویٹ کی کا اندازہ لگانا ریاضیاتی طور پر ناممکن ہے۔
+            </div>
+        </div>
+    </div>
+
+    <!-- Network Addresses Section -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+            <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            نیٹ ورک ایڈریسز
+        </h2>
+        
+        <!-- Tabs -->
+        <div class="flex flex-wrap gap-2 mb-4">
+            <button onclick="switchTab('btc')" id="tab-btc" class="tab-active px-4 py-2 rounded-lg text-sm font-bold transition">Bitcoin (Taproot)</button>
+            <button onclick="switchTab('evm')" id="tab-evm" class="bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-lg text-sm font-bold transition">EVM Networks</button>
+            <button onclick="switchTab('sol')" id="tab-sol" class="bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-lg text-sm font-bold transition">Solana</button>
+        </div>
+
+        <!-- BTC Content -->
+        <div id="content-btc" class="glass-panel rounded-xl p-6 animate-fade-in">
+            <div class="space-y-4">
+                <div class="bg-slate-800/50 p-4 rounded-lg border border-slate-700">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm text-slate-400">Bitcoin Taproot (P2TR)</span>
+                        <span class="bg-amber-900/30 text-amber-400 text-xs px-2 py-1 rounded">جدید ترین</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <code class="text-sm text-white font-mono break-all flex-1">bc1p5578pyj8p0dukh30cwhhk3ql84f5vhpz06zm7xff0ckzsytsam5qxkjh4n</code>
+                        <button onclick="copyText('bc1p5578pyj8p0dukh30cwhhk3ql84f5vhpz06zm7xff0ckzsytsam5qxkjh4n')" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm">کاپی</button>
+                    </div>
+                </div>
+                <div class="bg-slate-800/50 p-4 rounded-lg border border-slate-700">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm text-slate-400">Bitcoin Native SegWit (P2WPKH)</span>
+                        <span class="bg-blue-900/30 text-blue-400 text-xs px-2 py-1 rounded">مقبول</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <code class="text-sm text-white font-mono break-all flex-1">bc1qwzrryqr3ja8w7hnja2spmkgfdcgvqwp5swz4af4ngsjecfz0w0pqud7k38</code>
+                        <button onclick="copyText('bc1qwzrryqr3ja8w7hnja2spmkgfdcgvqwp5swz4af4ngsjecfz0w0pqud7k38')" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm">کاپی</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- EVM Content -->
+        <div id="content-evm" class="glass-panel rounded-xl p-6 hidden animate-fade-in">
+            <div class="bg-blue-900/20 border border-blue-700 p-4 rounded-lg mb-4">
+                <p class="text-sm text-blue-300">
+                    ℹ️ یہ تمام نیٹ ورکس EVM (Ethereum Virtual Machine) پر چلتے ہیں، اس لیے ان کا ایڈریس بالکل ایک ہی ہے۔
+                </p>
+            </div>
+            <div class="bg-slate-800/50 p-4 rounded-lg border border-slate-700">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-sm text-slate-400">EVM ایڈریس (Ethereum, BNB, Arbitrum, Avalanche, BEVM)</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <code class="text-sm text-white font-mono break-all flex-1">0xf1cd3a3ff0ec2bc9012c95214c0e4f70384d2c63</code>
+                    <button onclick="copyText('0xf1cd3a3ff0ec2bc9012c95214c0e4f70384d2c63')" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm">کاپی</button>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mt-4">
+                <div class="bg-slate-800 p-3 rounded-lg text-center text-sm">Ethereum</div>
+                <div class="bg-slate-800 p-3 rounded-lg text-center text-sm">BNB Smart Chain</div>
+                <div class="bg-slate-800 p-3 rounded-lg text-center text-sm">Arbitrum One</div>
+                <div class="bg-slate-800 p-3 rounded-lg text-center text-sm">Avalanche C-Chain</div>
+                <div class="bg-slate-800 p-3 rounded-lg text-center text-sm">BEVM</div>
+            </div>
+        </div>
+
+        <!-- Solana Content -->
+        <div id="content-sol" class="glass-panel rounded-xl p-6 hidden animate-fade-in">
+            <div class="bg-slate-800/50 p-4 rounded-lg border border-slate-700">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-sm text-slate-400">Solana</span>
+                    <span class="bg-purple-900/30 text-purple-400 text-xs px-2 py-1 rounded">SPL</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <code class="text-sm text-white font-mono break-all flex-1">J1SSs... (Solana Base58 Format)</code>
+                    <button onclick="copyText('J1SSs...')" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm">کاپی</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Send Bitcoin Section -->
+    <div id="send-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+            <svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+            بٹ کوائن بھیجیں (Taproot P2TR)
+        </h2>
+        <div class="glass-panel rounded-xl p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm text-slate-400 mb-2">وصول کنندہ کا ایڈریس</label>
+                        <input type="text" id="recipient" placeholder="bc1q..." class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500 font-mono text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-slate-400 mb-2">رقم (Satoshis)</label>
+                        <input type="number" id="amount" placeholder="5000" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-slate-400 mb-2">فیس (sat/vB)</label>
+                        <input type="number" id="fee" value="1.0" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500">
+                    </div>
+                    <button onclick="simulateSend()" class="w-full bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-bold py-3 rounded-lg transition transform hover:scale-[1.02]">
+                        ٹرانزیکشن بھیجیں
+                    </button>
+                </div>
+                <div class="bg-slate-900/50 rounded-lg p-4 font-mono text-sm text-green-400 overflow-y-auto max-h-80" id="console-output">
+                    <div class="text-slate-500">// والٹ کنسول آؤٹ پٹ</div>
+                    <div class="text-slate-500">// ٹرانزیکشن شروع کرنے کے لیے بٹن دبائیں...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Security Warning -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="bg-red-900/20 border border-red-700 rounded-xl p-6">
+            <h3 class="text-xl font-bold text-red-400 mb-2 flex items-center gap-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                حفاظتی نوٹ
+            </h3>
+            <p class="text-slate-300">
+                ہم والٹ کے مالک نہیں ہوتے، ہم صرف "پرائیویٹ کیز" کے رکھوالے ہوتے ہیں۔ جب تک وہ 12 الفاظ یا پرائیویٹ کی آپ کے پاس محفوظ ہے، بٹ کوائن کے اس عظیم الشان عالمی ریاضیاتی سسٹم (Blockchain) میں موجود وہ مخصوص فنڈز صرف اور صرف آپ کے اشارے (ڈیجیٹل دستخط) پر حرکت کر سکتے ہیں۔
+                کم بیٹری یا غیر مستحکم انٹرنیٹ پر ٹرانزیکشن نہ کریں۔
+            </p>
+        </div>
+    </div>
+
+    <!-- Copy Toast -->
+    <div id="copy-toast" class="copy-toast">
+        ایڈریس کاپی ہو گیا!
+    </div>
+
+    <script>
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const toast = document.getElementById('copy-toast');
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 2000);
+            });
+        }
+
+        function switchTab(tab) {
+            ['btc', 'evm', 'sol'].forEach(t => {
+                document.getElementById(`content-${t}`).classList.add('hidden');
+                document.getElementById(`tab-${t}`).classList.remove('tab-active');
+                document.getElementById(`tab-${t}`).classList.add('bg-slate-800');
+            });
+            document.getElementById(`content-${tab}`).classList.remove('hidden');
+            document.getElementById(`tab-${tab}`).classList.add('tab-active');
+            document.getElementById(`tab-${tab}`).classList.remove('bg-slate-800');
+        }
+
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function logToConsole(msg, type = 'info') {
+            const console = document.getElementById('console-output');
+            const div = document.createElement('div');
+            const colors = { info: 'text-blue-400', success: 'text-green-400', error: 'text-red-400', warn: 'text-amber-400' };
+            div.className = `${colors[type]} mb-1`;
+            div.textContent = `> ${msg}`;
+            console.appendChild(div);
+            console.scrollTop = console.scrollHeight;
+        }
+
+        function simulateSend() {
+            const recipient = document.getElementById('recipient').value;
+            const amount = document.getElementById('amount').value;
+            const fee = document.getElementById('fee').value;
+            const console = document.getElementById('console-output');
+            console.innerHTML = '<div class="text-slate-500">// والٹ کنسول آؤٹ پٹ</div>';
+
+            if (!recipient || !amount) {
+                logToConsole('❌ براہ کرم ایڈریس اور رقم درج کریں۔', 'error');
+                return;
+            }
+
+            logToConsole('والٹ لوڈ ہو رہا ہے...', 'info');
+            setTimeout(() => {
+                logToConsole('نیٹ ورک: bitcoin (Mainnet) | witness_type: p2tr', 'info');
+            }, 500);
+            setTimeout(() => {
+                logToConsole('UTXO تلاش کیے جا رہے ہیں...', 'info');
+            }, 1000);
+            setTimeout(() => {
+                logToConsole(`UTXO ملا: 500000 satoshis (Taproot)`, 'success');
+            }, 1500);
+            setTimeout(() => {
+                logToConsole('Schnorr دستخط (Signature) تیار کیے جا رہے ہیں...', 'info');
+            }, 2000);
+            setTimeout(() => {
+                logToConsole('✓ ٹرانزیکشن کامیابی سے سائن ہو گئی ہے۔', 'success');
+            }, 2500);
+            setTimeout(() => {
+                logToConsole(`براڈکاسٹ: ${amount} satoshis -> ${recipient.substring(0, 10)}...`, 'info');
+            }, 3000);
+            setTimeout(() => {
+                const txid = Array.from({length: 64}, () => Math.floor(Math.random()*16).toString(16)).join('');
+                logToConsole(`✅ ٹرانزیکشن مین نیٹ پر بھیج دی گئی!`, 'success');
+                logToConsole(`TXID: ${txid}`, 'success');
+                logToConsole(`فیس: ${fee} sat/vB`, 'info');
+            }, 3500);
+        }
+    </script>
+</body>
+</html>
+
